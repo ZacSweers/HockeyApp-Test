@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'hockeyApp'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        applicationId "io.sweers.hockeyapp_plugin_test"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def variantOutput = variant.outputs[0]
+        def variantOutputFile = variantOutput.outputFile
+        if (variantOutputFile != null && variantOutputFile.name.endsWith('.apk') && variantOutput.zipAlign) {
+            def newFileName = String.format("cool-name-here-%s-%s-%s.apk", variant.name, defaultConfig.versionName, defaultConfig.versionCode)
+            println "Old file name is ${variantOutputFile.name}"
+            println "New file name is ${newFileName}"
+            variantOutput.outputFile = new File((String) variantOutputFile.parent, newFileName)
+        }
+    }
+}
+
+hockeyapp {
+    apiToken = "123"
+    releaseType = 2
+    tags = "QA,internal,execs"
+    commitSha = "d670460b4b4aece5915caf5c68d12f560a9fe3e4"
+    buildServerUrl = 'http://ci.yourdomain.com/job123'
+    repositoryUrl = 'https://github.com/organization/your_repo/releases/tag/1.0.0'
+    variantToApplicationId = [
+            ProductionRelease:  "abdefhgohofjkfaca2789609137402f9",
+            ProductionDebug:    "abcdefghjiklmnof21296a9d592a60ea",
+    ]
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.2'
+}
