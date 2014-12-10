@@ -68,6 +68,7 @@ class HockeyAppUploadTask extends DefaultTask {
             throw new IllegalArgumentException("Cannot upload to HockeyApp because API Token is missing")
         }
 
+        println "Expected APK file name is \"${applicationFile.name}\""
         if (!applicationFile?.exists()) {
             applicationFile = getFile(project.hockeyapp.appFileNameRegex, project.hockeyapp.outputDirectory);
             if (!applicationFile) {

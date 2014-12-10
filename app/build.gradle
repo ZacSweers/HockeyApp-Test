@@ -24,8 +24,8 @@ android {
         def variantOutputFile = variantOutput.outputFile
         if (variantOutputFile != null && variantOutputFile.name.endsWith('.apk') && variantOutput.zipAlign) {
             def newFileName = String.format("cool-name-here-%s-%s-%s.apk", variant.name, defaultConfig.versionName, defaultConfig.versionCode)
-            println "Old file name is ${variantOutputFile.name}"
-            println "New file name is ${newFileName}"
+            println "Old file name is \"${variantOutputFile.name}\""
+            println "New file name is \"${newFileName}\""
             variantOutput.outputFile = new File((String) variantOutputFile.parent, newFileName)
         }
     }
@@ -39,8 +39,7 @@ hockeyapp {
     buildServerUrl = 'http://ci.yourdomain.com/job123'
     repositoryUrl = 'https://github.com/organization/your_repo/releases/tag/1.0.0'
     variantToApplicationId = [
-            ProductionRelease:  "abdefhgohofjkfaca2789609137402f9",
-            ProductionDebug:    "abcdefghjiklmnof21296a9d592a60ea",
+            Release:  "abdefhgohofjkfaca2789609137402f9",
     ]
 }
 
